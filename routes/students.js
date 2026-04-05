@@ -3,6 +3,42 @@ const router = express.Router();
 const Student = require("../models/Student");
 const path = require("path");
 
+// ========== Metrics Section (جديد) ==========
+let metrics = {
+  totalRequests: 0,
+  startTime: Date.now(),
+  requestHistory: []
+};
+
+// Middleware لحساب الطلبات
+router.use((req, res, next) => {
+  metrics.totalRequests++;
+  metrics.requestHistory.push({
+    time: new Date().toISOString(),
+    path: req.path,
+    method: req.method
+  });
+  // خلي آخر 100 طلب بس
+  if (metrics.requestHistory.length > 100) {
+    metrics.requestHistory.shift();
+  }
+  next();
+});
+
+// Endpoint للمقاييس (جديد)
+router.get("/metrics", (req, res) => {
+  const uptime = Math.floor((Date.now() - metrics.startTime) / 1000);
+  res.json({
+    uptimeSeconds: uptime,
+    uptimeHours: (uptime / 3600).toFixed(2),
+    totalRequests: metrics.totalRequests,
+    recentRequests: metrics.requestHistory.slice(-10),
+    status: "healthy",
+    timestamp: new Date().toISOString()
+  });
+});
+// ========== نهاية Metrics Section ==========
+
 // Serve CSS file
 router.get("/style.css", (req, res) => {
     res.sendFile(path.join(__dirname, "..", "public", "style.css"));
