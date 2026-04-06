@@ -1,52 +1,64 @@
-// models/Student.js
 const fs = require('fs');
 const path = require('path');
 
-// ملف تخزين البيانات
 const dataPath = path.join(__dirname, '..', 'students.json');
 
-// تأكد من وجود الملف
 if (!fs.existsSync(dataPath)) {
-  fs.writeFileSync(dataPath, JSON.stringify([]));
+    fs.writeFileSync(dataPath, JSON.stringify([]));
 }
 
-// قراءة جميع الطلاب
 const getAllStudents = () => {
-  const data = fs.readFileSync(dataPath, 'utf8');
-  return JSON.parse(data);
+    const data = fs.readFileSync(dataPath, 'utf8');
+    return JSON.parse(data);
 };
 
-// حفظ جميع الطلاب
 const saveStudents = (students) => {
-  fs.writeFileSync(dataPath, JSON.stringify(students, null, 2));
+    fs.writeFileSync(dataPath, JSON.stringify(students, null, 2));
 };
 
-// إنشاء طالب جديد
 const createStudent = async (studentData) => {
-  const students = getAllStudents();
-  const newStudent = {
-    id: Date.now(), // ID فريد
-    name: studentData.name,
-    createdAt: new Date().toISOString()
-  };
-  students.push(newStudent);
-  saveStudents(students);
-  return newStudent;
+    const students = getAllStudents();
+    const newStudent = {
+        id: Date.now(),
+        name: studentData.name,
+        grade: studentData.grade || null,  // جديد: درجة الطالب
+        createdAt: new Date().toISOString()
+    };
+    students.push(newStudent);
+    saveStudents(students);
+    return newStudent;
 };
 
-// حذف جميع الطلاب
 const deleteAllStudents = async () => {
-  saveStudents([]);
+    saveStudents([]);
 };
 
-// الحصول على عدد الطلاب
-const getStudentCount = () => {
-  return getAllStudents().length;
+const deleteStudentById = async (id) => {
+    const students = getAllStudents();
+    const filtered = students.filter(s => s.id != id);
+    saveStudents(filtered);
+};
+
+const updateStudentGrade = async (id, grade) => {
+    const students = getAllStudents();
+    const student = students.find(s => s.id == id);
+    if (student) {
+        student.grade = grade;
+        saveStudents(students);
+    }
+};
+
+const searchStudents = (query) => {
+    const students = getAllStudents();
+    if (!query) return students;
+    return students.filter(s => s.name.toLowerCase().includes(query.toLowerCase()));
 };
 
 module.exports = {
-  getAllStudents,
-  createStudent,
-  deleteAllStudents,
-  getStudentCount
+    getAllStudents,
+    createStudent,
+    deleteAllStudents,
+    deleteStudentById,
+    updateStudentGrade,
+    searchStudents
 };
