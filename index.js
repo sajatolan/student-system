@@ -10,7 +10,7 @@ app.use(session({
     secret: 'your-secret-key-change-this',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false } // true if using https
+    cookie: { secure: false }
 }));
 
 // Middleware
@@ -40,14 +40,13 @@ app.get("/health", (req, res) => {
     res.json({ 
         status: "ok", 
         timestamp: new Date().toISOString(),
-        storage: "JSON file (local)",
+        storage: "JSON file",
         auth: "enabled"
     });
 });
 
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
-    console.log(`📁 Data stored in: students.json & users.json`);
+    console.log(`📁 Data stored in: students.json`);
     console.log(`🔐 Authentication: ENABLED`);
-    console.log(`✅ System ready!`);
 });
