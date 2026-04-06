@@ -1,158 +1,74 @@
-# 📚 Student Management System
+# Student Management System
 
-نظام ويب سحابي لإدارة الطلاب - مشروع عملي متكامل
+نظام ويب متكامل لإدارة الطلاب مع نظام مصادقة
 
-## 🌐 رابط التطبيق
+## Live Demo
 
-[https://student-system-7eee.onrender.com](https://student-system-7eee.onrender.com)
+https://student-system-7eee.onrender.com
 
----
+### Login Credentials
+- Username: admin
+- Password: admin123
 
-## 🎯 عن المشروع
+## Features
 
-هذا المشروع هو نظام ويب سحابي متكامل يسمح بإدارة الطلاب (إضافة، عرض، حذف). تم تطويره كجزء من متطلبات مشروع الحوسبة السحابية.
+| Feature | Description |
+|---------|-------------|
+| Authentication | Secure login with session management |
+| Add Student | Add students with optional grades |
+| View Students | Display all students with their grades |
+| Edit Grade | Update student grades |
+| Delete Student | Remove individual students |
+| Search | Search students by name |
+| Clear All | Delete all students at once |
+| Metrics | Custom API endpoint for system metrics |
 
----
+## Technologies
 
-## ✨ الميزات
+| Technology | Purpose |
+|------------|---------|
+| Node.js | Runtime environment |
+| Express.js | Web framework |
+| express-session | Session management |
+| bcryptjs | Password hashing |
+| Render | Cloud hosting |
+| GitHub | Version control |
 
-- ✅ إضافة طالب جديد
-- ✅ عرض قائمة جميع الطلاب
-- ✅ حذف جميع الطلاب
-- ✅ واجهة مستخدم بسيطة وسهلة
-- ✅ API endpoint للوصول للبيانات بصيغة JSON
-- ✅ نظام مراقبة Metrics مدمج
-- ✅ Auto Scaling تلقائي
+## Local Development
 
----
-
-## 🛠️ التقنيات المستخدمة
-
-| التقنية | الاستخدام |
-|---------|-----------|
-| Node.js | تشغيل التطبيق |
-| Express.js | إطار العمل الخلفي |
-| Render | منصة النشر السحابية |
-| GitHub | التحكم بالإصدارات |
-| JSON | تخزين البيانات |
-
----
-
-## ☁️ متطلبات الحوسبة السحابية
-
-| المتطلب | طريقة التنفيذ |
-|----------|---------------|
-| IaaS (خوادم) | Render Web Services |
-| تخزين | JSON + (مخطط لإضافة S3) |
-| نشر تطبيق | Continuous Deployment من GitHub |
-| Auto Scaling | مدمج في Render |
-| Metrics | Render Dashboard |
-| SLA | وثيقة منفصلة |
-| Deployment Model | وثيقة منفصلة |
-| Security Risks | وثيقة منفصلة |
-
----
-
-## 🚀 تشغيل المشروع محلياً
-
-### 1. استنساخ المشروع
-```bash
 git clone https://github.com/sajatolan/student-system.git
 cd student-system
-2. تثبيت المتطلبات
-bash
 npm install
-3. تشغيل التطبيق
-bash
 npm start
-4. فتح المتصفح
-text
-http://localhost:3000
-📁 هيكل المشروع
-text
-student-system/
-│
-├── index.js              # الملف الرئيسي للتطبيق
-├── package.json          # المتطلبات والأوامر
-│
-├── models/
-│   └── Student.js        # نموذج بيانات الطالب
-│
-├── routes/
-│   └── students.js       # مسارات API
-│
-├── students.json         # ملف تخزين البيانات (يتلقائياً)
-│
-└── docs/
-    ├── SLA.md            # اتفاقية مستوى الخدمة
-    ├── deployment-model.md  # نموذج النشر
-    └── security-risks.md    # تحليل المخاطر الأمنية
-📊 API Endpoints
-المسار	الطريقة	الوصف
-/students	GET	عرض واجهة المستخدم
-/students/api	GET	الحصول على JSON للطلاب
-/students/add	POST	إضافة طالب جديد
-/students/clear	POST	حذف جميع الطلاب
-/health	GET	فحص صحة الخدمة
-🔒 الأمان
-✅ HTTPS مشغل تلقائياً
 
-⚠️ لا يوجد مصادقة (مخطط لها مستقبلاً)
+## API Endpoints
 
-⚠️ البيانات غير مشفرة
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| /auth/login | GET | Login page |
+| /auth/login | POST | Authenticate user |
+| /auth/logout | GET | Logout user |
+| /students | GET | Main dashboard |
+| /students/api | GET | Student data (JSON) |
+| /students/metrics | GET | System metrics |
+| /health | GET | Health check |
 
-لمزيد من التفاصيل: security-risks.md
+## Security
 
-📈 الأداء (SLA)
-وقت الاستجابة: أقل من 500ms
+- Password hashing (bcrypt)
+- Session-based authentication
+- Input validation and sanitization
+- HTML escaping to prevent XSS
+- HTTPS (production)
 
-وقت التشغيل: 99.5%
+## System Metrics
 
-وقت الاستجابة للمشاكل: 1-24 ساعة حسب الخطورة
+Access metrics at: /students/metrics
 
-لمزيد من التفاصيل: SLA.md
+## Author
 
-🚢 نموذج النشر
-النوع: Continuous Deployment (CI/CD)
-
-المنصة: Render Cloud
-
-الاستراتيجية: Auto-deploy من فرع main
-
-لمزيد من التفاصيل: deployment-model.md
-
-👨‍💻 المؤلف
 sajatolan
 
-📅 تاريخ الإنجاز
-أبريل 2026
+## Date
 
-📝 ملاحظات
-التطبيق يستخدم تخزين مؤقت (ephemeral storage)
-
-عند إعادة تشغيل الخدمة على Render، يتم فقدان البيانات
-
-يوصى بإضافة قاعدة بيانات MongoDB Atlas لحفظ البيانات بشكل دائم
-
-📄 الترخيص
-هذا المشروع لأغراض تعليمية فقط
-
-text
-
----
-
-## ✅ خطواتك الآن:
-
-1. **افتح VS Code**
-2. **أنشئ ملف جديد** باسم `README.md`
-3. **الصق المحتوى أعلاه**
-4. **احفظ** (`Ctrl + S`)
-
----
-
-## 🚀 ثم ارفعه إلى GitHub:
-
-```cmd
-git add README.md
-git commit -m "Add README file"
-git push origin main
+April 2026

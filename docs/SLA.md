@@ -2,7 +2,10 @@
 ## Student Management System
 
 ### Service Overview
-نظام إدارة الطلاب المستضاف على Render Cloud Platform
+نظام إدارة الطلاب المتكامل مع نظام مصادقة، يدعم إضافة وتعديل وحذف وبحث الطلاب.
+
+### Live URL
+[https://student-system-7eee.onrender.com](https://student-system-7eee.onrender.com)
 
 ### Uptime Commitment
 - **Target Uptime**: 99.5% monthly
@@ -11,15 +14,31 @@
 ### Performance Metrics
 | Metric | Target | Measurement |
 |--------|--------|-------------|
-| Response Time (p95) | < 500ms | Render Metrics |
+| Response Time (p95) | < 500ms | Custom Metrics |
 | Error Rate | < 1% | Render Logs |
 | Availability | 99.5% | Uptime monitoring |
+
+### Authentication
+- Username/Password based authentication
+- Session management with express-session
+- Default admin credentials: admin / admin123
+
+### Features Guaranteed
+| Feature | Status |
+|---------|--------|
+| Add Student | ✅ |
+| View Students | ✅ |
+| Edit Grade | ✅ |
+| Delete Student | ✅ |
+| Search Student | ✅ |
+| Clear All | ✅ |
+| Authentication | ✅ |
 
 ### Support Response Times
 | Issue Severity | Response Time | Resolution Time |
 |----------------|---------------|-----------------|
 | Critical (System Down) | 15 minutes | 1 hour |
-| High (Major Bug) | 1 hour | 4 hours |
+| High (Auth Issues) | 1 hour | 4 hours |
 | Normal | 4 hours | 24 hours |
 
 ### Service Credits for Violation

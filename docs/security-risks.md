@@ -1,64 +1,72 @@
 # Security Risk Analysis
 ## Student Management System
 
+### Authentication Method
+- Session-based authentication using express-session
+- Passwords hashed using bcryptjs
+- Default admin account: admin / admin123
+
 ### Risk Assessment Matrix
 
-| Risk ID | Risk Description | Severity | Probability | Impact |
-|---------|-----------------|----------|-------------|--------|
-| R-001 | No authentication | 🔴 High | 100% | High |
-| R-002 | No data encryption at rest | 🟡 Medium | 100% | Medium |
-| R-003 | Data loss on restart | 🟡 Medium | 80% | High |
-| R-004 | No input sanitization | 🟡 Medium | 60% | Medium |
-| R-005 | No rate limiting | 🟢 Low | 40% | Low |
-
----
+| Risk ID | Risk Description | Severity | Probability | Impact | Mitigation |
+|---------|-----------------|----------|-------------|--------|------------|
+| R-001 | No HTTPS in development | Medium | 100% | Medium | HTTPS on production (Render) |
+| R-002 | Session hijacking | Medium | 40% | High | Session timeout, secure cookies |
+| R-003 | Default credentials | High | 100% | High | Requires change on first login |
+| R-004 | No rate limiting | Low | 30% | Low | To be implemented |
+| R-005 | Plain text storage | Medium | 100% | Medium | JSON files not encrypted |
 
 ### Detailed Risk Analysis
 
-#### 🔴 R-001: No Authentication
-**Description**: Anyone can add, view, or delete students
-**Mitigation**: 
-- Implement JWT-based authentication
-- Add login page with username/password
-- Use Render's built-in environment variables for secrets
+#### R-003: Default Credentials
+Description: Default admin credentials (admin/admin123) are publicly known
+Mitigation: 
+- Force password change on first login
+- Implement password complexity requirements
+- Add email verification
 
-#### 🟡 R-002: No Data Encryption
-**Description**: Student data stored in plaintext JSON
-**Mitigation**:
-- Encrypt sensitive data before storage
-- Use environment variables for encryption keys
+#### R-002: Session Hijacking
+Description: Session cookies could be stolen
+Mitigation:
+- Use HTTPS only (Render provides this)
+- Set secure cookie flags
+- Implement session timeout (30 minutes)
 
-#### 🟡 R-003: Data Loss on Restart
-**Description**: Render restarts cause complete data loss
-**Mitigation**:
-- Add MongoDB Atlas (cloud database)
-- Implement automatic backups to cloud storage
+#### R-005: Plain Text Storage
+Description: Student data stored in unencrypted JSON files
+Mitigation:
+- Implement field-level encryption
+- Move to encrypted database (MongoDB Atlas)
+- Regular backup strategy
 
-#### 🟡 R-004: No Input Sanitization
-**Description**: Potential XSS attacks via student names
-**Mitigation**:
-- Add express-validator middleware
-- Sanitize all user inputs
+### Implemented Security Measures
 
----
+| Measure | Status |
+|---------|--------|
+| Password Hashing (bcrypt) | Yes |
+| Session Management | Yes |
+| HTTPS (Render) | Yes |
+| Input Validation | Yes |
+| HTML Escaping | Yes |
+| Authentication Middleware | Yes |
 
 ### Security Recommendations
 
-#### Immediate (Critical)
-1. ✅ HTTPS enabled (Render default)
-2. ⏳ Add user authentication
-3. ⏳ Implement input validation
+#### Immediate (High Priority)
+1. Change default credentials - First action after deployment
+2. Add session timeout (30 minutes inactivity)
+3. Implement rate limiting
 
 #### Short-term (1-2 weeks)
-1. Add MongoDB Atlas for data persistence
-2. Implement rate limiting
-3. Add request logging
+1. Add password reset functionality
+2. Implement login attempt limiting
+3. Add audit logging for sensitive actions
 
 #### Long-term (1 month)
-1. Add API rate limiting
-2. Implement backup strategy
-3. Add audit logging
+1. Migrate to MongoDB Atlas
+2. Implement 2FA (Two-Factor Authentication)
+3. Add backup encryption
 
-### Compliance
-- **GDPR**: Not applicable (no EU user data)
-- **Data Retention**: Manual deletion only
+### Security Contact
+- Report issues via GitHub repository
+- Response time: 24-48 hours
